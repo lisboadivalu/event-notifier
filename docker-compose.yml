@@ -1,0 +1,28 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: event_app
+        restart: unless-stopped
+        tty: true
+        command: php artisan serve --host=0.0.0.0
+        ports:
+            -   9009:8000
+        volumes:
+            -   .:/var/www/html
+        networks:
+            - event-network
+
+    socket:
+        image: 'quay.io/soketi/soketi:latest-16-alpine'
+        container_name: event_socket
+        restart: unless-stopped
+        ports:
+            - '6001:6001'
+            - '9601:9601'
+        networks:
+            - event-network
+networks:
+    event-network:
+        driver: bridge
