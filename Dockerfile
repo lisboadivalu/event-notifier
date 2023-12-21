@@ -4,8 +4,6 @@ WORKDIR /var/www
 
 COPY composer.lock composer.json /var/www/
 
-COPY .env .
-
 USER root
 
 RUN apt-get update && apt-get install -y \
